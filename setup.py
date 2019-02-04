@@ -1,6 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from os.path import join, dirname
+import sys
+if sys.version_info < (3, 5):
+    print("Python 3.5 or newer is required", file=sys.stderr)
+    sys.exit(1)
 
 execfile(join(dirname(__file__), 'src', 'PdfLibrary', 'version.py'))
 
@@ -27,6 +31,13 @@ setup(
   zip_safe         = False,
   classifiers      = CLASSIFIERS.splitlines(),
   package_dir      = {'' : 'src'},
-  install_requires = ['robotframework', 'chardet', 'pdfminer', 'pylibdmtx', 'wand'],
+  python_requires  = ' >= 3.5',
+  install_requires = ['robotframework',
+                      'chardet >= 3.0.4, < 4',
+                      'pdfminer.six == 20181108 ; sys_platform != "darwin"',
+                      'pylibdmtx',
+                      'wand'],
+  extras_require   = {'pdfminer': ['pdfminer.six == 20181108'],},
   packages         = ['PdfLibrary'],
 )
+
